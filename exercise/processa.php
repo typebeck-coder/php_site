@@ -1,21 +1,17 @@
 
 <?php
 
-// Verifica se o formulário foi enviado
 if ($_SERVER["REQUEST_METHOD"] != "POST") {
     die("Acesso negado. Tente novamente mais tarde.");
 }
 
-// Recebe os dados
 $nome = trim($_POST['nome'] ?? '');
 $email = trim($_POST['email'] ?? '');
 $cidade = trim($_POST['cidade'] ?? '');
-$idade = $_POST['idade'] ?? '';
+$idade = trim($_POST['idade'] ?? '');
 $sexo = $_POST['sexo'] ?? '';
 $observacao = trim($_POST['observacao'] ?? '');
 
-
-// Validação dos campos obrigatórios
 if ($nome == '' || $email == '' || $cidade == '' ||
     $idade == '' || $sexo == '') {
 
@@ -23,13 +19,12 @@ if ($nome == '' || $email == '' || $cidade == '' ||
 }
 
 
-// Validação do e-mail
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     die("E-mail inválido.");
 }
 
 
-// Validação da idade
+
 if (filter_var($idade, FILTER_VALIDATE_INT) === false) {
     die("A idade deve ser um número inteiro.");
 }
@@ -45,23 +40,24 @@ if ($idade < 18) {
 }
 
 
-// Validação do sexo
 if (!in_array($sexo, ['Feminino', 'Masculino', 'Outro'], true)) {
     die("Opção de sexo inválida.");
 }
 
 
-// Formatação do nome e da cidade
-$nome = mb_convert_case(mb_strtolower($nome, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+$nome = mb_convert_case($nome, MB_CASE_TITLE, 'UTF-8');
 
-$cidade = mb_convert_case(mb_strtolower($cidade, 'UTF-8'), MB_CASE_TITLE, 'UTF-8');
+$cidade = mb_convert_case($cidade, MB_CASE_TITLE, 'UTF-8');
 
 
-// Proteção dos dados exibidos na tela
 $nome = htmlspecialchars($nome, ENT_QUOTES, 'UTF-8');
+
 $email = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
+
 $cidade = htmlspecialchars($cidade, ENT_QUOTES, 'UTF-8');
+
 $sexo = htmlspecialchars($sexo, ENT_QUOTES, 'UTF-8');
+
 $observacao = htmlspecialchars($observacao, ENT_QUOTES, 'UTF-8');
 
 ?>
@@ -71,6 +67,7 @@ $observacao = htmlspecialchars($observacao, ENT_QUOTES, 'UTF-8');
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Confirmação de Cadastro</title>
 </head>
 
